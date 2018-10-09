@@ -2,6 +2,7 @@ import csv
 import ipaddress
 from AmazonS3_Downloader import os, sevenZip_Path
 import datetime
+from math import ceil
 '''
 Features that are currently extracted:
 ** destination ip - converted to numeric value
@@ -14,6 +15,7 @@ Features that are currently extracted:
 ** duration of the session
 ** part of day (coding: morning(00:00-08:00) = 0, noon(08:00-16:00) = 1, night(16:00-00:00) = 2
 '''
+
 '''                 CONSTANTS                   '''
 features_names_in_file = {
             'dst_ip': 'ipfix__destinationIPv4Address',
@@ -23,9 +25,9 @@ features_names_in_file = {
             'flow_end_time': 'ipfix__flowEndMilliseconds',
             'src_port': 'ipfix__sourceTransportPort',
             'dst_port': 'ipfix__destinationTransportPort',
-            'tcp_control_bits': 'ipfix__tcpControlBits'}
+            'tcp_control_bits': 'ipfix__tcpControlBits',}
 
-features_names_in_csv = list(features_names_in_file.values()) + ['line_index', 'file_name']
+features_names_in_csv = list(features_names_in_file.values()) + ['is_ip_new', 'line_index', 'file_name']
 
 dst_ip_index = 0
 num_of_packets_sent_index = 1
@@ -37,19 +39,18 @@ dst_port_index = 6
 tcp_control_bits_index = 7
 
 base_week = 'D:/Dojo_data_logs/ipfix-09.2018(filtered)/base_week'
-unique_ip_report = 'D:/reports/unique_ips_report.txt'
+unique_ip_report = 'C:/Dojo_Project/reports/unique_ips_report.txt'
 unique_ip_output_report_path = 'D:/Dojo_data_logs/reports'
 unique_percentage = 10
 trn_percentage = 70
 opt_percentage = 0
-tst_percentage = 10
+tst_percentage = 20
 
 # when analyzing the csv data set we update the lists indexes by the percentage of each data part
 unique_ip_lines_range = []
 trn_data_lines_range = []
 opt_data_lines_range = []
 tst_data_lines_range = []
-
 '''                                            '''
 
 
@@ -91,6 +92,7 @@ def calculate_date_difference(start_datetime, end_datetime):
 
 
 def is_ip_address_new(ip_addr):
+
     with open(unique_ip_report, 'r') as unique_ips:
         ip_list = unique_ips.read().splitlines()
         if ip_addr in ip_list:
@@ -126,8 +128,6 @@ def extract_features_from_file(path):
                 final_feature_list = []
                 # dst-ip (converted to numeric value)
                 final_feature_list.append(int(ipaddress.IPv4Address(initial_features[dst_ip_index])))
-                # is-new (binary)
-                final_feature_list.append(is_ip_address_new(initial_features[dst_ip_index]))
                 # number of packets sent # CHANGE TO INT
                 final_feature_list.append(int(initial_features[num_of_packets_sent_index]))
                 # number of bytes sent
@@ -153,6 +153,10 @@ def extract_features_from_file(path):
                 else:
                     part_of_day = 2
                 final_feature_list.append(part_of_day)
+                # is-new (binary) - initially we accumulate all the ips into one csv file and later on perform the
+                # check whether the ip is new or not, depending on the unique_ip percentage, so the initial value
+                # is set to -1
+                final_feature_list.append(-1)
 
                 return_matrix.append(final_feature_list)
         return return_matrix
@@ -179,61 +183,87 @@ def features_to_csv_subfolder(path_to_subfolder, output_report_path, writer):
                 writer.writerow(csv_feature_vector)
 
 
+def update_dataset_indexes_list(path_to_csv_dataset):
+    global unique_ip_lines_range
+    global trn_data_lines_range
+    global opt_data_lines_range
+    global tst_data_lines_range
+    with open(path_to_csv_dataset, 'r') as csv_dataset:
+        reader = csv.reader(csv_dataset)
+        row_count = sum(1 for row in reader)
+        # row_count = len(list(csv.reader(open(path_to_csv_dataset))))
+
+        unique_ip_lines_range = [0, ceil(unique_percentage / 100 * row_count)]
+        trn_data_lines_range = [unique_ip_lines_range[1], unique_ip_lines_range[1] +
+                                ceil((trn_percentage / 100) * row_count)]
+        opt_data_lines_range = [trn_data_lines_range[1], trn_data_lines_range[1] +
+                                ceil((opt_percentage / 100) * row_count)]
+        tst_data_lines_range = [opt_data_lines_range[1], opt_data_lines_range[1] +
+                                ceil((tst_percentage / 100) * row_count)]
+
+    print(unique_ip_lines_range)
+    print(trn_data_lines_range)
+    print(opt_data_lines_range)
+    print(tst_data_lines_range)
+
+
+# at this point we assume the file is open and the function was called from the features_to_csv function
+def update_is_ip_new_in_csv(path_to_temp_dataset, path_to_csv_dataset):
+    unique_ips = set()
+    with open(path_to_temp_dataset, 'r') as csv_temp_dataset, open(path_to_csv_dataset, 'w+', newline='') as output_dataset:
+        reader = csv.reader(csv_temp_dataset)
+        writer = csv.writer(output_dataset)
+        headers = next(reader)
+        writer.writerow(headers)
+
+        ip_index = headers.index(features_names_in_file['dst_ip'])
+        for i in range(unique_ip_lines_range[0], unique_ip_lines_range[1]):
+            line = next(reader)
+            unique_ips.add(line[ip_index])
+            writer.writerow(line)
+
+        # at this point we finished going through the part allocated for finding unique ips
+        # and start updating the rest of the file accordingly
+        for line in reader:
+            if line[ip_index] in unique_ips:
+                line[ip_index] = 0
+            else:
+                line[ip_index] = 1
+            writer.writerow(line)
+
+    os.remove(path_to_temp_dataset)
+
+
 # NOTICE: output_report_path should include the name of the report (example: C:/blah/.../report1.csv
 def features_to_csv(path_to_folder, output_report_path, to_create):
-    output_csv_file = None
+    temp = '_temp.csv'
+    temp_output = output_report_path[:-4] + temp
     if to_create:
-        output_csv_file = open(output_report_path, 'w+', newline='')
+        output_csv_file = open(temp_output, 'w+', newline='')
     else:
-        output_csv_file = open(output_report_path, 'a')
+        output_csv_file = open(temp_output, 'a')
 
     writer = csv.writer(output_csv_file)
     writer.writerow(features_names_in_csv)
-    features_to_csv_subfolder(path_to_folder, output_report_path, writer)
+    features_to_csv_subfolder(path_to_folder, temp_output, writer)
+    output_csv_file.close()
+    update_dataset_indexes_list(temp_output)
+    update_is_ip_new_in_csv(temp_output, output_report_path)
+
+
 
 
 def analyze_csv_dataset(path_to_dataset):
     with open(path_to_dataset, 'r') as csv_dataset:
-        num_of_rows = sum(1 for line in csv_dataset)
+        pass
 
 
 if __name__ == '__main__':
-    features_to_csv('D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)', 'D:/Dojo_data_logs/september_dataset.csv', True)
-
-
-
-'''
-from math import ceil
-unique_percentage = 10
-trn_percentage = 70
-opt_percentage = 0
-tst_percentage = 20
-
-unique_ip_lines_range = []
-trn_data_lines_range = []
-opt_data_lines_range = []
-tst_data_lines_range = []
-
-tmp_list = []
-for i in range(1, 250469):
-    tmp_list.append(i)
-
-num_of_rows = len(tmp_list)
-
-unique_ip_lines_range = [0, len(tmp_list[:int((unique_percentage/100)*len(tmp_list))])]
-trn_data_lines_range = [unique_ip_lines_range[1], unique_ip_lines_range[1] + len(tmp_list[unique_ip_lines_range[1]:unique_ip_lines_range[1] + ceil((trn_percentage/100)*len(tmp_list))])]
-opt_data_lines_range = [trn_data_lines_range[1], trn_data_lines_range[1] + len(tmp_list[trn_data_lines_range[1]:trn_data_lines_range[1] + ceil((opt_percentage/100)*len(tmp_list))])]
-tst_data_lines_range = [opt_data_lines_range[1], opt_data_lines_range[1] + len(tmp_list[opt_data_lines_range[1]:opt_data_lines_range[1] + ceil((tst_percentage/100)*len(tmp_list))])]
-
-print(unique_ip_lines_range)
-print(trn_data_lines_range)
-print(opt_data_lines_range)
-print(tst_data_lines_range)
-
-
-
-
-
-'''
-
-
+    # features_to_csv('C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
+    #                 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv',
+    #                 True)
+    with open('C:/Dojo_Project/Dojo_data_logs/september_dataset.csv', 'r') as csv_file, \
+            open('C:/Dojo_Project/Dojo_data_logs/check.txt', 'w+') as output:
+        reader = csv.reader(csv_file)
+        for line in reader:
+            output.write(','.join(line) + '\n')
