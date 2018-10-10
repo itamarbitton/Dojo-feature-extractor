@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="985bc6cf-3a1c-4442-b5a4-37fe21bf8d32" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py" beforeDir="false" afterPath="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/temp_AutoEncoder.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/tutorial_AutoEncoder.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp_AutoEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp_AutoEncoder.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,19 +49,19 @@
     <session id="322494602">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="724" />
+          <entry key="py" value="969" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="724" />
+          <entry key="Python" value="969" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -138,11 +137,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-127">
-              <caret line="228" selection-start-line="228" selection-end-line="228" />
+            <state relative-caret-position="551">
+              <caret line="257" lean-forward="true" selection-start-line="257" selection-end-line="257" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -153,8 +152,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ipfix_AutoEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="125" column="38" lean-forward="true" selection-start-line="125" selection-start-column="38" selection-end-line="125" selection-end-column="38" />
+            <state relative-caret-position="30">
+              <caret line="110" column="80" lean-forward="true" selection-start-line="110" selection-start-column="80" selection-end-line="110" selection-end-column="80" />
               <folding>
                 <element signature="e#482#546#0" expanded="true" />
               </folding>
@@ -163,19 +162,14 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Temporary_Functions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="20" column="15" lean-forward="true" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/temp_AutoEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="12" selection-start-column="12" selection-end-column="12" />
+            <state relative-caret-position="221">
+              <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
+              <folding>
+                <element signature="e#482#546#0" expanded="true" />
+                <marker date="1539161332473" expanded="true" signature="584:595" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -202,7 +196,10 @@
       <find>unique_ips_report</find>
       <find>unique_ip_report</find>
       <find>update_is_ip_new_in_csv</find>
+      <find>examples_to_show</find>
       <find>ip_index</find>
+      <find>IP</find>
+      <find>ipadd</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -222,8 +219,8 @@
         <option value="$PROJECT_DIR$/Ipfix_AutoEncoder.py" />
         <option value="$PROJECT_DIR$/venv/tutorial_AutoEncoder.py" />
         <option value="$PROJECT_DIR$/venv/temp_AutoEncoder.py" />
-        <option value="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py" />
         <option value="$PROJECT_DIR$/temp_AutoEncoder.py" />
+        <option value="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py" />
       </list>
     </option>
   </component>
@@ -268,7 +265,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.temp_AutoEncoder (1)">
+  <component name="RunManager" selected="Python.Feature_Extraction_From_Ipfix">
     <configuration name="Feature_Extraction_From_Ipfix" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Dojo-Feature-Extractor" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -383,8 +380,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.temp_AutoEncoder (1)" />
         <item itemvalue="Python.Feature_Extraction_From_Ipfix" />
+        <item itemvalue="Python.temp_AutoEncoder (1)" />
         <item itemvalue="Python.temp_AutoEncoder" />
         <item itemvalue="Python.tutorial_AutoEncoder" />
         <item itemvalue="Python.Ipfix_AutoEncoder" />
@@ -406,15 +403,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-149" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13171759" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13171759" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.2516269" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.27765727" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.27765727" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -432,6 +428,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/temp_AutoEncoder.py</url>
+          <line>113</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -558,26 +561,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-127">
-          <caret line="228" selection-start-line="228" selection-end-line="228" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ipfix_AutoEncoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="125" column="38" lean-forward="true" selection-start-line="125" selection-start-column="38" selection-end-line="125" selection-end-column="38" />
-          <folding>
-            <element signature="e#482#546#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tutorial_AutoEncoder.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -588,10 +571,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Ipfix_AutoEncoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="110" column="80" lean-forward="true" selection-start-line="110" selection-start-column="80" selection-end-line="110" selection-end-column="80" />
+          <folding>
+            <element signature="e#482#546#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/temp_AutoEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="12" selection-start-column="12" selection-end-column="12" />
+        <state relative-caret-position="221">
+          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
+          <folding>
+            <element signature="e#482#546#0" expanded="true" />
+            <marker date="1539161332473" expanded="true" signature="584:595" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="257" lean-forward="true" selection-start-line="257" selection-end-line="257" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

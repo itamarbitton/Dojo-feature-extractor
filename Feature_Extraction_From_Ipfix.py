@@ -25,7 +25,7 @@ features_names_in_file = {
             'flow_end_time': 'ipfix__flowEndMilliseconds',
             'src_port': 'ipfix__sourceTransportPort',
             'dst_port': 'ipfix__destinationTransportPort',
-            'tcp_control_bits': 'ipfix__tcpControlBits',}
+            'tcp_control_bits': 'ipfix__tcpControlBits'}
 
 features_names_in_csv = list(features_names_in_file.values()) + ['is_ip_new', 'line_index', 'file_name']
 
@@ -37,8 +37,8 @@ flow_end_time_index = 4
 src_port_index = 5
 dst_port_index = 6
 tcp_control_bits_index = 7
+is_ip_new_index = 8
 
-base_week = 'D:/Dojo_data_logs/ipfix-09.2018(filtered)/base_week'
 unique_ip_report = 'C:/Dojo_Project/reports/unique_ips_report.txt'
 unique_ip_output_report_path = 'D:/Dojo_data_logs/reports'
 unique_percentage = 10
@@ -127,7 +127,8 @@ def extract_features_from_file(path):
                 # next part of code create the final list of the features needed to be derived from the existing ones
                 final_feature_list = []
                 # dst-ip (converted to numeric value)
-                final_feature_list.append(int(ipaddress.IPv4Address(initial_features[dst_ip_index])))
+                #final_feature_list.append(int(ipaddress.IPv4Address(initial_features[dst_ip_index])))
+                final_feature_list.append( float(''.join(initial_features[dst_ip_index].split('.'))) )
                 # number of packets sent # CHANGE TO INT
                 final_feature_list.append(int(initial_features[num_of_packets_sent_index]))
                 # number of bytes sent
@@ -226,9 +227,9 @@ def update_is_ip_new_in_csv(path_to_temp_dataset, path_to_csv_dataset):
         # and start updating the rest of the file accordingly
         for line in reader:
             if line[ip_index] in unique_ips:
-                line[ip_index] = 0
+                line[is_ip_new_index] = 0
             else:
-                line[ip_index] = 1
+                line[is_ip_new_index] = 1
             writer.writerow(line)
 
     os.remove(path_to_temp_dataset)
@@ -257,9 +258,11 @@ def analyze_csv_dataset(path_to_dataset):
 
 
 if __name__ == '__main__':
+
     features_to_csv('D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
                     'D:/Dojo_data_logs/september_dataset.csv',
                     True)
+    # update_dataset_indexes_list('D:/Dojo_data_logs/september_dataset.csv')
     # with open('D:/Dojo_data_logs/september_dataset.csv', 'r') as csv_file, \
     #         open('D:/Dojo_data_logs/check.txt', 'w+') as output:
     #     reader = csv.reader(csv_file)
