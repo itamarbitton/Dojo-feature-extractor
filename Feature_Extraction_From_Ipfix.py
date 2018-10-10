@@ -251,19 +251,17 @@ def features_to_csv(path_to_folder, output_report_path, to_create):
     update_is_ip_new_in_csv(temp_output, output_report_path)
 
 
-
-
 def analyze_csv_dataset(path_to_dataset):
     with open(path_to_dataset, 'r') as csv_dataset:
         pass
 
 
 if __name__ == '__main__':
-    # features_to_csv('C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
-    #                 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv',
-    #                 True)
-    with open('C:/Dojo_Project/Dojo_data_logs/september_dataset.csv', 'r') as csv_file, \
-            open('C:/Dojo_Project/Dojo_data_logs/check.txt', 'w+') as output:
-        reader = csv.reader(csv_file)
-        for line in reader:
-            output.write(','.join(line) + '\n')
+    features_to_csv('D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
+                    'D:/Dojo_data_logs/september_dataset.csv',
+                    True)
+    # with open('D:/Dojo_data_logs/september_dataset.csv', 'r') as csv_file, \
+    #         open('D:/Dojo_data_logs/check.txt', 'w+') as output:
+    #     reader = csv.reader(csv_file)
+    #     for line in reader:
+    #         output.write('      '.join(line[8]) + '\n')
