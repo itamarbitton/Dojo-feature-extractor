@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 from math import sqrt
 from tensorflow.examples.tutorials.mnist import input_data
+import csv
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Training Parameters
@@ -16,14 +17,24 @@ examples_to_show = 10
 
 
 '''TEMP'''
-unique_ip = [0, 347719]
+unique_ip = [1, 347719]
 trn_idx = [347719, 2781752]
 opt = [2781752, 2781752]
 tst_idx = [2781752, 3477190]
+path_to_dataset = 'D:/Dojo_data_logs/september_dataset.csv'
 '''    '''
 
+
 def train_next_batch():
-    pass
+    for i in range(trn_idx[0], trn_idx[1]):
+        with open(path_to_dataset) as csv_file:
+            reader = csv.reader(csv_file)
+            for j in range(0, i):
+                next(reader)
+            temp = next(reader)
+            output = [float(k) for k in temp[:-2]]
+        yield output
+
 
 # Network Parameters
 num_hidden_1 = 256  # 1st layer num features

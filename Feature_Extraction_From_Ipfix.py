@@ -27,7 +27,8 @@ features_names_in_file = {
             'dst_port': 'ipfix__destinationTransportPort',
             'tcp_control_bits': 'ipfix__tcpControlBits'}
 
-features_names_in_csv = list(features_names_in_file.values()) + ['is_ip_new', 'line_index', 'file_name']
+features_names_in_csv = ['num_of_packets_sent', 'total_bytes_sent', 'src_port', 'dst_port', 'session_duration',
+                         'tcp_control_bits', 'is_ip_new', 'line_index', 'file_name']
 
 dst_ip_index = 0
 num_of_packets_sent_index = 1
@@ -194,7 +195,7 @@ def update_dataset_indexes_list(path_to_csv_dataset):
         row_count = sum(1 for row in reader)
         # row_count = len(list(csv.reader(open(path_to_csv_dataset))))
 
-        unique_ip_lines_range = [0, ceil(unique_percentage / 100 * row_count)]
+        unique_ip_lines_range = [1, ceil(unique_percentage / 100 * row_count)]
         trn_data_lines_range = [unique_ip_lines_range[1], unique_ip_lines_range[1] +
                                 ceil((trn_percentage / 100) * row_count)]
         opt_data_lines_range = [trn_data_lines_range[1], trn_data_lines_range[1] +
@@ -258,7 +259,6 @@ def analyze_csv_dataset(path_to_dataset):
 
 
 if __name__ == '__main__':
-
     features_to_csv('D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
                     'D:/Dojo_data_logs/september_dataset.csv',
                     True)
@@ -268,3 +268,12 @@ if __name__ == '__main__':
     #     reader = csv.reader(csv_file)
     #     for line in reader:
     #         output.write('      '.join(line[8]) + '\n')
+
+
+'''
+algo:
+    1) scan the total number of files
+    2) take the first unique_percentage of the files and collect the unique ip set
+    3) for the rest of the data write on the september_dataset.csv
+    4) write metadata for the september_dataset.csv
+'''
