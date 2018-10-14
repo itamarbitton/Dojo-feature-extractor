@@ -3,18 +3,7 @@ import ipaddress
 from AmazonS3_Downloader import os, sevenZip_Path
 import datetime
 from math import ceil
-'''
-Features that are currently extracted:
-** destination ip - converted to numeric value
-** is_new - whether the ip is new compared to the base data sample
-** number of packets sent
-** number of bytes sent
-** source port
-** destination port
-** flags (aka control bits)
-** duration of the session
-** part of day (coding: morning(00:00-08:00) = 0, noon(08:00-16:00) = 1, night(16:00-00:00) = 2
-'''
+import time
 
 '''                 CONSTANTS                   '''
 features_names_in_file = {
@@ -25,9 +14,10 @@ features_names_in_file = {
             'flow_end_time': 'ipfix__flowEndMilliseconds',
             'src_port': 'ipfix__sourceTransportPort',
             'dst_port': 'ipfix__destinationTransportPort',
-            'tcp_control_bits': 'ipfix__tcpControlBits',}
+            'tcp_control_bits': 'ipfix__tcpControlBits'}
 
-features_names_in_csv = list(features_names_in_file.values()) + ['is_ip_new', 'line_index', 'file_name']
+features_names_in_csv = ['total_packets_sent', 'total_bytes_sent', 'src_port', 'dst_port',
+                         'tcp_control_bits', 'flow_duration', 'part of day', 'is_ip_new', 'line_index', 'file_name']
 
 dst_ip_index = 0
 num_of_packets_sent_index = 1
@@ -41,6 +31,7 @@ tcp_control_bits_index = 7
 base_week = 'D:/Dojo_data_logs/ipfix-09.2018(filtered)/base_week'
 unique_ip_report = 'C:/Dojo_Project/reports/unique_ips_report.txt'
 unique_ip_output_report_path = 'D:/Dojo_data_logs/reports'
+unique_percentage = 10
 unique_percentage = 10
 trn_percentage = 70
 opt_percentage = 0
@@ -86,22 +77,8 @@ def calculate_date_difference(start_datetime, end_datetime):
     return difference.total_seconds() * (10**3)
 
 
-# pre-condition: the function collect_unique_ip_addresses was called and the file of unique ip addresses was created
-# at the unique_ip_report path
-''' NEED TO BE UPDATED   '''
-
-
-def is_ip_address_new(ip_addr):
-
-    with open(unique_ip_report, 'r') as unique_ips:
-        ip_list = unique_ips.read().splitlines()
-        if ip_addr in ip_list:
-            return 1
-    return 0
-
-
 # Function receive a path to a CSV Ipfix file and returns a matrix containing the features of that file
-def extract_features_from_file(path):
+def extract_initial_features_from_file(path):
     try:
         feature_to_index_dict = {}  # mapping each feature to its column's index in the row
         return_matrix = []
@@ -153,10 +130,6 @@ def extract_features_from_file(path):
                 else:
                     part_of_day = 2
                 final_feature_list.append(part_of_day)
-                # is-new (binary) - initially we accumulate all the ips into one csv file and later on perform the
-                # check whether the ip is new or not, depending on the unique_ip percentage, so the initial value
-                # is set to -1
-                final_feature_list.append(-1)
 
                 return_matrix.append(final_feature_list)
         return return_matrix
@@ -174,7 +147,7 @@ def features_to_csv_subfolder(path_to_subfolder, output_report_path, writer):
             features_to_csv_subfolder(path_to_file, output_report_path, writer)
         else:
             line_index = 0
-            features_matrix = extract_features_from_file(path_to_file)
+            features_matrix = extract_initial_features_from_file(path_to_file)
             if features_matrix is None:
                 continue
             for feature_vector in features_matrix:
@@ -208,28 +181,60 @@ def update_dataset_indexes_list(path_to_csv_dataset):
 
 
 # at this point we assume the file is open and the function was called from the features_to_csv function
-def update_is_ip_new_in_csv(path_to_temp_dataset, path_to_csv_dataset):
+def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
     unique_ips = set()
     with open(path_to_temp_dataset, 'r') as csv_temp_dataset, open(path_to_csv_dataset, 'w+', newline='') as output_dataset:
         reader = csv.reader(csv_temp_dataset)
         writer = csv.writer(output_dataset)
-        headers = next(reader)
-        writer.writerow(headers)
-
-        ip_index = headers.index(features_names_in_file['dst_ip'])
+        writer.writerow(features_names_in_csv)
+        ip_index = dst_ip_index
         for i in range(unique_ip_lines_range[0], unique_ip_lines_range[1]):
             line = next(reader)
             unique_ips.add(line[ip_index])
-            writer.writerow(line)
 
-        # at this point we finished going through the part allocated for finding unique ips
-        # and start updating the rest of the file accordingly
+        # creating the final feature vector plus two info columns (index in file & file name)
         for line in reader:
-            if line[ip_index] in unique_ips:
-                line[ip_index] = 0
+            '''
+            the order of the features written in the temp csv file
+            0)ip (converted to numeric value)
+            1)total number of packets sent
+            2)total number of bytes sent
+            3)src port
+            4)dst port
+            5)tcp control bits
+            6)session duration
+            7)part of day
+            
+            the order we want in the output dataset file:
+            0)total_packets_sent
+            1)total_bytes_sent
+            2)src_port
+            3)dst_port
+            4)flow_duration
+            5)tcp_control_bits
+            6)session duration
+            7)part of day
+            8)is_ip_new
+            ['total_packets_sent', 'total_bytes_sent', 'src_port', 'dst_port',
+                         'tcp_control_bits', 'flow_duration', 'is_ip_new', 'line_index', 'file_name']
+            '''
+            out_line = []
+            out_line.append(line[1])
+            out_line.append(line[2])
+            out_line.append(line[3])
+            out_line.append(line[4])
+            out_line.append(line[5])
+            out_line.append(line[6])
+            out_line.append(line[7])
+            if line[0] in unique_ips:
+                out_line.append(0)
+            elif line[0] not in unique_ips:
+                out_line.append(1)
             else:
-                line[ip_index] = 1
-            writer.writerow(line)
+                print('error with unique ip')
+            out_line += line[-2:]
+
+            writer.writerow(out_line)
 
     os.remove(path_to_temp_dataset)
 
@@ -244,13 +249,10 @@ def features_to_csv(path_to_folder, output_report_path, to_create):
         output_csv_file = open(temp_output, 'a')
 
     writer = csv.writer(output_csv_file)
-    writer.writerow(features_names_in_csv)
     features_to_csv_subfolder(path_to_folder, temp_output, writer)
     output_csv_file.close()
     update_dataset_indexes_list(temp_output)
-    update_is_ip_new_in_csv(temp_output, output_report_path)
-
-
+    create_final_dataset_with_info(temp_output, output_report_path)
 
 
 def analyze_csv_dataset(path_to_dataset):
@@ -259,11 +261,9 @@ def analyze_csv_dataset(path_to_dataset):
 
 
 if __name__ == '__main__':
-    # features_to_csv('C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
-    #                 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv',
-    #                 True)
-    with open('C:/Dojo_Project/Dojo_data_logs/september_dataset.csv', 'r') as csv_file, \
-            open('C:/Dojo_Project/Dojo_data_logs/check.txt', 'w+') as output:
-        reader = csv.reader(csv_file)
-        for line in reader:
-            output.write(','.join(line) + '\n')
+    start_time = time.time()
+
+    features_to_csv('C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
+                    'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv',
+                    True)
+    print("--- %s seconds ---" % (time.time() - start_time))

@@ -1,41 +1,41 @@
-""" Auto Encoder Example.
-Build a 2 layers auto-encoder with TensorFlow to compress images to a
-lower latent space and then reconstruct them.
-References:
-    Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner. "Gradient-based
-    learning applied to document recognition." Proceedings of the IEEE,
-    86(11):2278-2324, November 1998.
-Links:
-    [MNIST Dataset] http://yann.lecun.com/exdb/mnist/
-Author: Aymeric Damien
-Project: https://github.com/aymericdamien/TensorFlow-Examples/
-"""
 from __future__ import division, print_function, absolute_import
-
 import tensorflow as tf
+import Data_Generator
+from sklearn.metrics import mean_squared_error
+from math import sqrt
 import numpy as np
-import matplotlib.pyplot as plt
+import time
 
-# Import MNIST data
-from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
+dataset_path = 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv'
+
+unique_ip_lines_range = [0, 347719]
+trn_data_lines_range = [347719, 2781752]
+opt_data_lines_range = [2781752, 2781752]
+tst_data_lines_range = [2781752, 3477190]
+
+# trn_batch_size = trn_data_lines_range[1] - trn_data_lines_range[0]
+# opt_batch_size = opt_data_lines_range[1] - opt_data_lines_range[0]
+# tst_batch_size = tst_data_lines_range[1] - tst_data_lines_range[0] - 1
+trn_batch_size = 60000
+opt_batch_size = 0
+tst_batch_size = 10000
 
 # Training Parameters
 learning_rate = 0.01
-num_steps = 5000  # epochs
-batch_size = 256
+num_steps = 2  # epochs
 
-display_step = 1000
-examples_to_show = 10
+display_step = 10000
 
 # Network Parameters
-num_hidden_1 = 256  # 1st layer num features
-num_hidden_2 = 128  # 2nd layer num features (the latent dim)
-num_input = 784  # MNIST data input (img shape: 28*28)
+num_hidden_1 = 8  # 1st layer num features
+num_hidden_2 = 4  # 2nd layer num features (the latent dim)
+num_input = 8  #
 
-# tf Graph input (only pictures)
 X = tf.placeholder("float", [None, num_input])
 
+gen_class = Data_Generator.Data_Gen()
+trn_gen = gen_class.trn_data_gen(trn_batch_size)
+tst_gen = gen_class.tst_data_gen(trn_batch_size + opt_batch_size, tst_batch_size)
 weights = {
     'encoder_h1': tf.Variable(tf.random_normal([num_input, num_hidden_1])),
     'encoder_h2': tf.Variable(tf.random_normal([num_hidden_1, num_hidden_2])),
@@ -82,11 +82,15 @@ y_pred = decoder_op
 y_true = X
 
 # Define loss and optimizer, minimize the squared error
-loss = tf.reduce_mean(tf.pow(y_true - y_pred, 2))
-optimizer = tf.train.RMSPropOptimizer(learning_rate).minimize(loss)
-
+#loss = tf.reduce_mean(tf.pow(y_true - y_pred, 2))
+loss = tf.sqrt(tf.reduce_mean(tf.square(tf.subtract(y_true, y_pred))))
+# optimizer = tf.train.RMSPropOptimizer(learning_rate).minimize(loss)
+optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)
 # Initialize the variables (i.e. assign their default value)
 init = tf.global_variables_initializer()
+
+start_time = time.time()
+
 
 # Start Training
 # Start a new TF session
@@ -95,32 +99,29 @@ with tf.Session() as sess:
     # Run the initializer
     sess.run(init)
 
-    # Training
-    for i in range(1, num_steps+1):
-        # Prepare Data
-        # Get the next batch of MNIST data (only images are needed, not labels)
-        batch_x, _ = mnist.train.next_batch(batch_size)
+    for epoch in range(0, num_steps):
+        print('Epoch: ', epoch)
+        # Training
+        for i in range(1, trn_batch_size+1):
+            # Prepare Data
+            # (only features are needed, not labels)
+            batch_x, _ = next(trn_gen)
 
-        # Run optimization op (backprop) and cost op (to get loss value)
-        _, l = sess.run([optimizer, loss], feed_dict={X: batch_x})
-        # Display logs per step
-        if i % display_step == 0 or i == 1:
-            print('Step %i: Minibatch Loss: %f' % (i, l))
+            # Run optimization op (backprop) and cost op (to get loss value)
+            _, l = sess.run([optimizer, loss], feed_dict={X: batch_x})
+            # Display logs per step
+            if i % display_step == 0 or i == 1:
+                print('Step %i: Minibatch Loss: %f' % (i, l))
 
+    k = 5
     # Testing
-    # Encode and decode images from test set and visualize their reconstruction.
-    n = 4
-    canvas_orig = np.empty((28 * n, 28 * n))
-    canvas_recon = np.empty((28 * n, 28 * n))
-    for i in range(n):
-        # MNIST test set
-        batch_x, _ = mnist.test.next_batch(n)
-        # Encode and decode the digit image
+    for i in range(1, tst_batch_size+1):
+        batch_x, _ = next(tst_gen)
         g = sess.run(decoder_op, feed_dict={X: batch_x})
+        rms = sqrt(mean_squared_error(np.asarray(batch_x), g))
+        if k != 0:
+            print(rms)
+            k -= 1
 
-        check1 = g[0]
-        check2 = g[1]
-        check3 = g[2]
-        check4 = g[3]
+print("--- %s seconds ---" % (time.time() - start_time))
 
-        asf = 13
