@@ -2,16 +2,14 @@
 '''
 this script downloads compressed files from the dojo AWS server and extract them on the local machine
 '''
-
-import os
+from Ipfix_Constants import *
 
 '''     CONSTANTS        '''
-sevenZip_Path = '"C:/Program Files/7-Zip/7z.exe"'
 LOCAL__DOWNLOAD_PATH = "E:/Dojo_data_logs"
 AWS_PATH = 's3://dojo-data-logs/'
 year = '2018'
 inline_path = '/json' + '/' + year
-buckets = ('dhcpfp', 'dnsSniffer', 'httpua', 'ipfix', 'mdns', 'mdnsfull', 'nbns', 'upnp')  # just for now, consider deleting this
+buckets = ('dhcpfp', 'dnsSniffer', 'httpua', 'ipfix', 'mdns', 'mdnsfull', 'nbns', 'upnp')
 days_in_months_dict = {'01': 31, '02': 28, '03': 31, '04': 30, '05': 31, '06': 30, '07': 31, '08': 31, '09': 30, '10': 31, '11': 30, '12': 31}
 '''                     '''
 

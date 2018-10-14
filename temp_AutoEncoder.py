@@ -5,10 +5,9 @@ from sklearn.metrics import mean_squared_error
 from math import sqrt
 import numpy as np
 import time
+from Ipfix_Constants import *
 
-dataset_path = 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv'
-
-unique_ip_lines_range = [0, 347719]
+unique_ip_lines_range = [1, 347719]
 trn_data_lines_range = [347719, 2781752]
 opt_data_lines_range = [2781752, 2781752]
 tst_data_lines_range = [2781752, 3477190]
@@ -23,7 +22,6 @@ tst_batch_size = 10000
 # Training Parameters
 learning_rate = 0.01
 num_steps = 2  # epochs
-
 display_step = 10000
 
 # Network Parameters

@@ -1,6 +1,5 @@
-import csv
+from Ipfix_Constants import *
 import ipaddress
-from AmazonS3_Downloader import os, sevenZip_Path
 import datetime
 from math import ceil
 import time
@@ -28,10 +27,6 @@ src_port_index = 5
 dst_port_index = 6
 tcp_control_bits_index = 7
 
-base_week = 'D:/Dojo_data_logs/ipfix-09.2018(filtered)/base_week'
-unique_ip_report = 'C:/Dojo_Project/reports/unique_ips_report.txt'
-unique_ip_output_report_path = 'D:/Dojo_data_logs/reports'
-unique_percentage = 10
 unique_percentage = 10
 trn_percentage = 70
 opt_percentage = 0
@@ -43,20 +38,6 @@ trn_data_lines_range = []
 opt_data_lines_range = []
 tst_data_lines_range = []
 '''                                            '''
-
-
-def decompress_file(path_to_compressed_file, output_path):
-    extract_command = '%s e %s' % (sevenZip_Path, path_to_compressed_file) + " -o" + output_path  # extract file from gz to txt format
-    success = os.system(extract_command)
-    if success != 0:
-        return None
-    else:
-        return path_to_compressed_file[:-3]
-
-
-def delete_decompressed_file(path_to_compressed_file):
-    delete_command = 'del %s' % path_to_compressed_file  # delete the gz file as it is no longer needed
-    os.system(delete_command)
 
 
 def parse_date(date_str):
@@ -166,7 +147,7 @@ def update_dataset_indexes_list(path_to_csv_dataset):
         row_count = sum(1 for row in reader)
         # row_count = len(list(csv.reader(open(path_to_csv_dataset))))
 
-        unique_ip_lines_range = [0, ceil(unique_percentage / 100 * row_count)]
+        unique_ip_lines_range = [1, ceil(unique_percentage / 100 * row_count)]
         trn_data_lines_range = [unique_ip_lines_range[1], unique_ip_lines_range[1] +
                                 ceil((trn_percentage / 100) * row_count)]
         opt_data_lines_range = [trn_data_lines_range[1], trn_data_lines_range[1] +
@@ -174,10 +155,13 @@ def update_dataset_indexes_list(path_to_csv_dataset):
         tst_data_lines_range = [opt_data_lines_range[1], opt_data_lines_range[1] +
                                 ceil((tst_percentage / 100) * row_count)]
 
-    print(unique_ip_lines_range)
-    print(trn_data_lines_range)
-    print(opt_data_lines_range)
-    print(tst_data_lines_range)
+        with open((reports_folder + '/' + (os.path.basename(path_to_csv_dataset)[:-4])).join('_meta.csv'), 'w+') as meta_csv:
+            writer = csv.writer(meta_csv)
+            writer.writerow(['path to dataset', path_to_csv_dataset])
+            writer.writerow(['unique_ip_batch_size', unique_ip_lines_range[1] - unique_ip_lines_range[0]])
+            writer.writerow(['trn_data_batch_size', trn_data_lines_range[1] - trn_data_lines_range[0]])
+            writer.writerow(['opt_data_batch_size', opt_data_lines_range[1] - opt_data_lines_range[0]])
+            writer.writerow(['tst_data_batch_size', tst_data_lines_range[1] - tst_data_lines_range[0] - 1])
 
 
 # at this point we assume the file is open and the function was called from the features_to_csv function
@@ -212,9 +196,8 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
             3)dst_port
             4)flow_duration
             5)tcp_control_bits
-            6)session duration
-            7)part of day
-            8)is_ip_new
+            6)part of day
+            7)is_ip_new
             ['total_packets_sent', 'total_bytes_sent', 'src_port', 'dst_port',
                          'tcp_control_bits', 'flow_duration', 'is_ip_new', 'line_index', 'file_name']
             '''
@@ -255,15 +238,11 @@ def features_to_csv(path_to_folder, output_report_path, to_create):
     create_final_dataset_with_info(temp_output, output_report_path)
 
 
-def analyze_csv_dataset(path_to_dataset):
-    with open(path_to_dataset, 'r') as csv_dataset:
-        pass
-
-
 if __name__ == '__main__':
     start_time = time.time()
 
-    features_to_csv('C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
-                    'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv',
+    features_to_csv('D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
+                    'D:/Dojo_data_logs/september_dataset.csv',
                     True)
     print("--- %s seconds ---" % (time.time() - start_time))
+

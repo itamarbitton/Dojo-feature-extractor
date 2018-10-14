@@ -1,18 +1,14 @@
-import os
-import csv
-from MAC_Addr_File_Filter import *
-from TXT_to_CSV_converter import *
+from Ipfix_Constants import *
 
 
 def get_macs_from_tsv():
-    tsv_file = 'D:/Dojo_data_logs/reports/select___d_last_seen__d_box_id__d_device.tsv'
-    mac_list = []
+    mac_lst = []
     # getting the MACs for the report and arranging the format for the report
     with open(tsv_file, 'r') as tsv:
         reader = csv.reader(tsv, dialect='excel-tab')
         for row in reader:
-            mac_list.append(row[2])
-    return mac_list
+            mac_lst.append(row[2])
+    return mac_lst
 
 
 # function create a mac report from the tsv file provided by dojo - indicating for each mac and each day
@@ -68,14 +64,8 @@ def get_most_active_macs(path_to_csv_report, output_folder, days_num):
 
 
 def main():
-    tsv_path = 'C:/Dojo_data_logs/reports/select___d_last_seen__d_box_id__d_device.tsv'
-    path_to_filter = 'C:/Dojo_data_logs/base_week'
-    filtered_txt_files = 'C:/Dojo_data_logs/base_week_filtered'
-    filter_by_tsv_file(tsv_path, path_to_filter, filtered_txt_files)
+    pass
 
-    create_mac_instances_report(get_macs_from_tsv(), filtered_txt_files, 'C:/Dojo_data_logs/reports')
-    csv_report = 'C:/Dojo_data_logs/reports/MAC days report.csv'
-    get_most_active_macs(csv_report, 'C:/Dojo_data_logs/reports', 5)
 
 if __name__ == '__main__':
     main()

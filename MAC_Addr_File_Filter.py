@@ -2,17 +2,24 @@ import os
 import csv
 from multiprocessing import Pool
 from functools import partial
-from Feature_Extraction_From_Ipfix import decompress_file, delete_decompressed_file
+from Ipfix_Constants import *
+
 ''' CONSTANTS '''
-directories_to_filter = []
-is_files_compressed = True
-most_used_macs = 'D:/reports/most_active_MACs.txt'
+are_files_compressed = True
 mac_list = []
-tsv_file = 'D:/reports/select___d_last_seen__d_box_id__d_device.tsv'
 src_mac_in_json = '"sourceMacAddress":'
 num_of_threads = 15
 errors_file = 'D:/reports/errors.txt'
 '''           '''
+
+
+def decompress_file(path_to_compressed_file, output_path):
+    extract_command = '%s e %s' % (sevenZip_Path, path_to_compressed_file) + " -o" + output_path  # extract file from gz to txt format
+    success = os.system(extract_command)
+    if success != 0:
+        return None
+    else:
+        return path_to_compressed_file[:-3]
 
 
 def get_MACs_from_txt(path_to_txt):
@@ -66,7 +73,7 @@ def filter_files_in_folder(num_of_threads, path_to_folder, output_folder_path, m
             pass
         else:
             txt_files.append(path_to_folder + '/' + f)
-    if is_files_compressed:
+    if are_files_compressed:
         partial_write = partial(filter_compressed_file, output_path=output_folder_path, mac_list=mac)
     else:
         partial_write = partial(filter_file, output_path=output_folder_path, mac_list=mac)

@@ -1,6 +1,4 @@
-import csv
-
-dataset_path = 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv'
+from Ipfix_Constants import *
 
 
 class Data_Gen():

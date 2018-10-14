@@ -88,9 +88,6 @@ def convert(num_of_threads, path_to_convert, output_path):
 
 def main():
     convert(num_of_threads, folder_to_convert, output_path)
-    # create_output_directory(output_path)
-    # for path in list_to_convert:
-    #     convert(3, path, output_path)
 
 
 if __name__ == '__main__':
