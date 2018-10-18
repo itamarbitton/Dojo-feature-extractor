@@ -34,8 +34,8 @@ trn_data_lines_range = []
 opt_data_lines_range = []
 tst_data_lines_range = []
 
-path_to_folder = 'C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)'
-output_report_path = 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv'
+path_to_folder = 'D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)'
+output_report_path = 'D:/Dojo_data_logs/september_dataset.csv'
 '''                                            '''
 
 
