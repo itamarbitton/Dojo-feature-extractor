@@ -27,16 +27,15 @@ src_port_index = 5
 dst_port_index = 6
 tcp_control_bits_index = 7
 
-unique_percentage = 10
-trn_percentage = 70
-opt_percentage = 0
-tst_percentage = 20
 
 # when analyzing the csv data set we update the lists indexes by the percentage of each data part
 unique_ip_lines_range = []
 trn_data_lines_range = []
 opt_data_lines_range = []
 tst_data_lines_range = []
+
+path_to_folder = 'C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)'
+output_report_path = 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv'
 '''                                            '''
 
 
@@ -145,7 +144,6 @@ def update_dataset_indexes_list(path_to_csv_dataset):
     with open(path_to_csv_dataset, 'r') as csv_dataset:
         reader = csv.reader(csv_dataset)
         row_count = sum(1 for row in reader)
-        # row_count = len(list(csv.reader(open(path_to_csv_dataset))))
 
         unique_ip_lines_range = [1, ceil(unique_percentage / 100 * row_count)]
         trn_data_lines_range = [unique_ip_lines_range[1], unique_ip_lines_range[1] +
@@ -155,7 +153,8 @@ def update_dataset_indexes_list(path_to_csv_dataset):
         tst_data_lines_range = [opt_data_lines_range[1], opt_data_lines_range[1] +
                                 ceil((tst_percentage / 100) * row_count)]
 
-        with open((reports_folder + '/' + (os.path.basename(path_to_csv_dataset)[:-4])).join('_meta.csv'), 'w+') as meta_csv:
+        with open((reports_folder + '/' +
+                   (os.path.basename(path_to_csv_dataset)[:-4])) + '_meta.csv', 'w+', newline='') as meta_csv:
             writer = csv.writer(meta_csv)
             writer.writerow(['path to dataset', path_to_csv_dataset])
             writer.writerow(['unique_ip_batch_size', unique_ip_lines_range[1] - unique_ip_lines_range[0]])
@@ -241,8 +240,8 @@ def features_to_csv(path_to_folder, output_report_path, to_create):
 if __name__ == '__main__':
     start_time = time.time()
 
-    features_to_csv('D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)',
-                    'D:/Dojo_data_logs/september_dataset.csv',
+    features_to_csv(path_to_folder,
+                    output_report_path,
                     True)
     print("--- %s seconds ---" % (time.time() - start_time))
 

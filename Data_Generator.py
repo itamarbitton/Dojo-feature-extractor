@@ -5,11 +5,13 @@ class Data_Gen():
     def __init__(self):
         self.reader = None
 
-    def trn_data_gen(self, batch_sz):
+    def trn_data_gen(self, batch_sz, offset_into_file):
         current_row = 0
         csv_file = open(dataset_path, 'r')
         self.reader = csv.reader(csv_file)
         next(self.reader)  # ignore the headers
+        for i in range(0, offset_into_file):
+            next(self.reader)
         while True:
             if current_row < batch_sz:
                 try:
@@ -23,6 +25,8 @@ class Data_Gen():
                 csv_file = open(dataset_path, 'r')
                 self.reader = csv.reader(csv_file)
                 next(self.reader)  # ignore the headers
+                for i in range(0, offset_into_file):
+                    next(self.reader)
 
     def tst_data_gen(self, trn_and_opt_batch_size, tst_batch_sz):
         current_row = 0

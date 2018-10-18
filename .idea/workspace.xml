@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/temp_AutoEncoder.py" line="99" />
+    <bookmark url="file://$PROJECT_DIR$/temp_AutoEncoder.py" line="109" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="985bc6cf-3a1c-4442-b5a4-37fe21bf8d32" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AmazonS3_Downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/AmazonS3_Downloader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data_Generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Data_Generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py" beforeDir="false" afterPath="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py.orig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MAC_Addr_File_Filter.py" beforeDir="false" afterPath="$PROJECT_DIR$/MAC_Addr_File_Filter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TXT_to_CSV_converter.py" beforeDir="false" afterPath="$PROJECT_DIR$/TXT_to_CSV_converter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Temporary_Functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Temporary_Functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ipfix_Constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ipfix_Constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp_AutoEncoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp_AutoEncoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp_AutoEncoder.py.orig" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,32 +86,33 @@
     <session id="-1896789419">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="8" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.7" value="1" />
+          <entry key="project.open.time.7" value="3" />
+          <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="3900" />
+          <entry key="py" value="4853" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="3900" />
+          <entry key="Python" value="4853" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="7" />
+          <entry key="py" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="7" />
+          <entry key="Python" value="9" />
         </counts>
       </usages-collector>
     </session>
@@ -126,7 +122,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AmazonS3_Downloader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
+            <state relative-caret-position="66">
               <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
             </state>
           </provider>
@@ -135,7 +131,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TXT_to_CSV_converter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="286">
               <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
               <folding>
                 <element signature="e#624#866#0" />
@@ -147,17 +143,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MAC_Addr_File_Filter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1326">
-              <caret column="9" lean-forward="true" selection-start-column="9" selection-end-column="9" />
+            <state>
+              <caret column="9" selection-start-column="9" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="142" column="31" lean-forward="true" selection-start-line="142" selection-start-column="31" selection-end-line="142" selection-end-column="31" />
+            <state relative-caret-position="440">
+              <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -165,11 +161,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ipfix_Constants.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="440">
+              <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -177,29 +170,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Data_Generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="484">
+              <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/temp_AutoEncoder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="9" column="21" selection-start-line="9" selection-end-line="9" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Temporary_Functions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-              <folding>
-                <marker date="1539514248552" expanded="true" signature="2737:2749" ph="..." />
-              </folding>
+            <state relative-caret-position="374">
+              <caret line="51" column="18" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -256,29 +237,28 @@
         <option value="$PROJECT_DIR$/Ipfix_AutoEncoder.py" />
         <option value="$PROJECT_DIR$/venv/tutorial_AutoEncoder.py" />
         <option value="$PROJECT_DIR$/venv/temp_AutoEncoder.py" />
-        <option value="$PROJECT_DIR$/temp_AutoEncoder.py" />
         <option value="$PROJECT_DIR$/Temporary_Functions.py" />
-        <option value="$PROJECT_DIR$/Data_Generator.py" />
         <option value="$PROJECT_DIR$/TXT_to_CSV_converter.py" />
         <option value="$PROJECT_DIR$/MAC_Addr_File_Filter.py" />
         <option value="$PROJECT_DIR$/AmazonS3_Downloader.py" />
-        <option value="$PROJECT_DIR$/Ipfix_Constants.py" />
         <option value="$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py" />
+        <option value="$PROJECT_DIR$/Ipfix_Constants.py" />
+        <option value="$PROJECT_DIR$/Data_Generator.py" />
+        <option value="$PROJECT_DIR$/temp_AutoEncoder.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1928" />
-    <option name="y" value="-149" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="85" />
+    <option name="y" value="25" />
+    <option name="width" value="1750" />
+    <option name="height" value="970" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -290,10 +270,11 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/Stub" />
+    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/First Project" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -308,7 +289,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Feature_Extraction_From_Ipfix">
+  <component name="RunManager" selected="Python.temp_AutoEncoder (1)">
     <configuration name="Data_Generator" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Dojo-Feature-Extractor" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -423,9 +404,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.temp_AutoEncoder (1)" />
         <item itemvalue="Python.Feature_Extraction_From_Ipfix" />
         <item itemvalue="Python.Ipfix_AutoEncoder" />
-        <item itemvalue="Python.temp_AutoEncoder (1)" />
         <item itemvalue="Python.Data_Generator" />
         <item itemvalue="Python.temp_AutoEncoder" />
       </list>
@@ -445,15 +426,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-149" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13171759" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13152677" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.22885032" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.27765727" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22836879" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.27659574" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -544,13 +525,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/temp_AutoEncoder.py" />
     <entry file="file://$PROJECT_DIR$/venv/tutorial_AutoEncoder.py" />
-    <entry file="file://C:/Python36/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="303" column="56" lean-forward="true" selection-start-line="303" selection-start-column="56" selection-end-line="304" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python36/Lib/site-packages/tensorflow/python/client/session.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
@@ -558,67 +532,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py.orig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1071">
-          <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py.orig" />
     <entry file="file://$PROJECT_DIR$/Ipfix_AutoEncoder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
           <caret line="31" column="18" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="18" />
-          <folding>
-            <element signature="e#482#546#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python36/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="310" selection-start-line="310" selection-end-line="310" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Temporary_Functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <marker date="1539514248552" expanded="true" signature="2737:2749" ph="..." />
-          </folding>
+        <state relative-caret-position="22">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AmazonS3_Downloader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
+        <state relative-caret-position="66">
           <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ipfix_Constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MAC_Addr_File_Filter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1326">
-          <caret column="9" lean-forward="true" selection-start-column="9" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/temp_AutoEncoder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="9" column="21" selection-start-line="9" selection-end-line="9" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TXT_to_CSV_converter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="286">
           <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
           <folding>
             <element signature="e#624#866#0" />
@@ -626,17 +571,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Data_Generator.py">
+    <entry file="file://$PROJECT_DIR$/MAC_Addr_File_Filter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        <state>
+          <caret column="9" selection-start-column="9" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Feature_Extraction_From_Ipfix.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="142" column="31" lean-forward="true" selection-start-line="142" selection-start-column="31" selection-end-line="142" selection-end-column="31" />
+        <state relative-caret-position="440">
+          <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ipfix_Constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data_Generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/temp_AutoEncoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="51" column="18" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
         </state>
       </provider>
     </entry>

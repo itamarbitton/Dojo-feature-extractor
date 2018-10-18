@@ -7,17 +7,33 @@ import numpy as np
 import time
 from Ipfix_Constants import *
 
-unique_ip_lines_range = [1, 347719]
-trn_data_lines_range = [347719, 2781752]
-opt_data_lines_range = [2781752, 2781752]
-tst_data_lines_range = [2781752, 3477190]
+with open(september_meta_report, 'r') as csv_meta_report:
+    reader = csv.reader(csv_meta_report)
+    next(reader)  # ignore the path to dataset
+    next(reader)  # ignore the unique number of ip samples
 
-# trn_batch_size = trn_data_lines_range[1] - trn_data_lines_range[0]
-# opt_batch_size = opt_data_lines_range[1] - opt_data_lines_range[0]
-# tst_batch_size = tst_data_lines_range[1] - tst_data_lines_range[0] - 1
-trn_batch_size = 60000
-opt_batch_size = 0
-tst_batch_size = 10000
+    trn_batch_size = int(next(reader)[1])
+    opt_batch_size = int(next(reader)[1])
+    tst_batch_size = int(next(reader)[1])
+    print(trn_batch_size)
+    print(opt_batch_size)
+    print(tst_batch_size)
+
+
+gen_class = Data_Generator.Data_Gen()
+tst_gen = gen_class.tst_data_gen(trn_batch_size + opt_batch_size, tst_batch_size)
+trn_gen = gen_class.trn_data_gen(trn_batch_size)
+
+# EXPERIMENT 1.0 - we take all training data and test it
+# EXPERIMENT 1.1 - we take 66& training data and test it
+# EXPERIMENT 1.2 - we take 33& training data and test it
+# compare 1.0, 1.1, 1.2 results
+
+# EXPERIMENT 2.0 - we take 33% of most recent training data and test it
+# EXPERIMENT 2.1 - we take 33% of training data between the most recent recent data and oldest data and test it
+# EXPERIMENT 2.2 - we take 33% of oldest training data and test it
+# compare 2.0, 2.1, 2.2 results
+
 
 # Training Parameters
 learning_rate = 0.01
@@ -31,9 +47,6 @@ num_input = 8  #
 
 X = tf.placeholder("float", [None, num_input])
 
-gen_class = Data_Generator.Data_Gen()
-trn_gen = gen_class.trn_data_gen(trn_batch_size)
-tst_gen = gen_class.tst_data_gen(trn_batch_size + opt_batch_size, tst_batch_size)
 weights = {
     'encoder_h1': tf.Variable(tf.random_normal([num_input, num_hidden_1])),
     'encoder_h2': tf.Variable(tf.random_normal([num_hidden_1, num_hidden_2])),
@@ -79,8 +92,7 @@ y_pred = decoder_op
 # Targets (Labels) are the input data.
 y_true = X
 
-# Define loss and optimizer, minimize the squared error
-#loss = tf.reduce_mean(tf.pow(y_true - y_pred, 2))
+# Define loss and optimizer, minimize the root mean squared error
 loss = tf.sqrt(tf.reduce_mean(tf.square(tf.subtract(y_true, y_pred))))
 # optimizer = tf.train.RMSPropOptimizer(learning_rate).minimize(loss)
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)
