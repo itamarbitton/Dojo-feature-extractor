@@ -26,8 +26,8 @@ def begin_experiments():
         opt_size = int(next(reader)[1])
         tst_size = int(next(reader)[1])
 
-        result1_0 = experiment_1_0()
-        print('result for experiment 1.0 = ', result1_0)
+        # result1_0 = experiment_1_0()
+        # print('result for experiment 1.0 = ', result1_0)
         result1_1 = experiment_1_1()
         print('result for experiment 1.1 = ', result1_1)
         result1_2 = experiment_1_2()

@@ -6,7 +6,7 @@ from math import sqrt
 import numpy as np
 import time
 from Ipfix_Constants import *
-
+import statistics
 
 # trn_data_percentage = how much from all the records allocated for training should we use in percentage
 # part_of_data => 0 for all of the data, 1 for first 33%, 2 for middle 33%, 3 for most recent 33%
@@ -27,13 +27,13 @@ def train_and_test(train_data_size, offset_into_train_dataset):
 
     # Training Parameters
     learning_rate = 0.01
-    num_steps = 2  # epochs
+    num_steps = 1  # epochs
     display_step = 500000
 
     # Network Parameters
     num_hidden_1 = 8  # 1st layer num features
     num_hidden_2 = 4  # 2nd layer num features (the latent dim)
-    num_input = 8  #
+    num_input = 10  #
 
     X = tf.placeholder("float", [None, num_input])
 
@@ -110,15 +110,18 @@ def train_and_test(train_data_size, offset_into_train_dataset):
                     print('Step %i: Minibatch Loss: %f' % (i, l))
 
         avg_rmse = 0
+        rmse_list = []
         # Testing
         for i in range(1, tst_size + 1):
             batch_x, _ = next(tst_gen)
             g = sess.run(decoder_op, feed_dict={X: batch_x})
             rmse = sqrt(mean_squared_error(np.asarray(batch_x), g))
             avg_rmse += (rmse / tst_size)
-
+            rmse_list.append(rmse)
+        # calculating standard deviation
+        standart_dev = statistics.stdev(rmse_list)
     print("--- %s seconds ---" % (time.time() - start_time))
-    return avg_rmse
+    return [avg_rmse, standart_dev]
 
 
 
