@@ -3,7 +3,9 @@ import ipaddress
 import datetime
 from math import ceil
 import time
-
+import queue
+import threading
+import operator
 '''                 CONSTANTS                   '''
 features_names_in_file = {
             'dst_ip': 'ipfix__destinationIPv4Address',
@@ -201,7 +203,6 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
     # unique_ips = set()
     ip_to_dates = {}
     progress = 0
-    printing5, printing10, printing25, printing50, printing75 = True, True, True, True, True,
     with open(path_to_temp_dataset, 'r') as csv_temp_dataset, open(path_to_csv_dataset, 'w+', newline='') as output_dataset:
         reader = csv.reader(csv_temp_dataset)
         writer = csv.writer(output_dataset)
@@ -212,7 +213,20 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
         #     unique_ips.add(line[ip_index])
 
         # creating the final feature vector plus two info columns (index in file & file name)
-        for line in reader:
+        sortedlist = sorted(reader, key=operator.itemgetter(timestamp_index), reverse=False)
+        def writer_task():
+            while True:
+                item = q.get()
+                if item is None:
+                    break
+                writer.writerow(item)
+                q.task_done()
+
+        q = queue.Queue()
+        writing_thread = threading.Thread(target=writer_task)
+        writing_thread.start()
+
+        for line in sortedlist:
             '''
             the order of the features written in the temp csv file
             0)ip (converted to numeric value)
@@ -267,25 +281,19 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
 
             out_line += line[-2:]  # adding the row index and the file name
 
-            writer.writerow(out_line)
+            q.put(out_line)
+
+            # writer.writerow(out_line)
             # just for keeping track - delete later if necessary
             progress += 1
-            if progress > row_count*0.05 and printing5:
-                print('finished 5% of total data')
-                printing5 = False
-            elif progress > row_count*0.1 and printing10:
-                print('finished 10% of total data')
-                printing10 = False
-            elif progress > row_count*0.25 and printing25:
-                print('finished 25% of total data')
-                printing25 = False
-            elif progress > row_count*0.5 and printing50:
-                print('finished 50% of total data')
-                printing50 = False
-            elif progress > row_count*0.75 and printing75:
-                print('finished 75% of total data')
-                printing75 = False
+            if (progress % 50000) == 0:
+                print('progress is:', progress)
 
+
+        # block until all tasks are done
+        q.join()
+        q.put(None)
+        writing_thread.join()
     os.remove(path_to_temp_dataset)
 
 

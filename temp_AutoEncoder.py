@@ -28,7 +28,7 @@ def train_and_test(train_data_size, offset_into_train_dataset):
     # Training Parameters
     learning_rate = 0.01
     num_steps = 1  # epochs
-    display_step = 500000
+    display_step = 50000
 
     # Network Parameters
     num_hidden_1 = 8  # 1st layer num features
