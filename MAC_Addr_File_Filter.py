@@ -1,5 +1,3 @@
-import os
-import csv
 from multiprocessing import Pool
 from functools import partial
 from Ipfix_Constants import *

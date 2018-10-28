@@ -40,10 +40,10 @@ opt_data_lines_range = []
 tst_data_lines_range = []
 row_count = 0
 
-path_to_folder = 'C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)'
-output_report_path = 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv'
-# path_to_folder = 'D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)'
-# output_report_path = 'D:/Dojo_data_logs/september_dataset.csv'
+# path_to_folder = 'C:/Dojo_Project/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)'
+# output_report_path = 'C:/Dojo_Project/Dojo_data_logs/september_dataset.csv'
+path_to_folder = 'D:/Dojo_data_logs/ipfix-09.2018(filtered)(csv files)'
+output_report_path = 'D:/Dojo_data_logs/september_dataset.csv'
 '''                                            '''
 
 
@@ -214,6 +214,7 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
 
         # creating the final feature vector plus two info columns (index in file & file name)
         sortedlist = sorted(reader, key=operator.itemgetter(timestamp_index), reverse=False)
+
         def writer_task():
             while True:
                 item = q.get()
@@ -221,6 +222,13 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
                     break
                 writer.writerow(item)
                 q.task_done()
+
+        def clear_old_dates(curr_date):
+            for key in ip_to_dates.keys():
+                for date in ip_to_dates[key]:
+                    diff_in_milliseconds = calculate_date_difference(date, curr_date)
+                    if diff_in_milliseconds < 86400000:
+                        ip_to_dates[key].remove(date)
 
         q = queue.Queue()
         writing_thread = threading.Thread(target=writer_task)
@@ -259,12 +267,6 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
             out_line.append(line[5])
             out_line.append(line[6])
             out_line.append(line[7])
-            # if line[0] in unique_ips:
-            #     out_line.append(0)
-            # elif line[0] not in unique_ips:
-            #     out_line.append(1)
-            # else:
-            #     print('error with unique ip')
 
             if line[ip_index] in ip_to_dates.keys():
                 last_minute, last_hour, last_day = last_minute_hour_day(line[timestamp_index],
@@ -283,12 +285,12 @@ def create_final_dataset_with_info(path_to_temp_dataset, path_to_csv_dataset):
 
             q.put(out_line)
 
-            # writer.writerow(out_line)
             # just for keeping track - delete later if necessary
             progress += 1
-            if (progress % 50000) == 0:
-                print('progress is:', progress)
-
+            if (progress % 5000) == 0:
+                print('progress :', progress)
+                clear_dates_thread = threading.Thread(target=clear_old_dates(line[timestamp_index]))
+                clear_dates_thread.start()
 
         # block until all tasks are done
         q.join()

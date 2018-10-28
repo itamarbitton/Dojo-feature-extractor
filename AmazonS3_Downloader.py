@@ -1,6 +1,7 @@
 # author: itamar bitton
 '''
 this script downloads compressed files from the dojo AWS server and extract them on the local machine
+NOTICE: YOU MUST INSTALL AWS CLI AND CONFIGURE THE USER BEFORE RUNNING THIS SCRIPT
 '''
 from Ipfix_Constants import *
 
